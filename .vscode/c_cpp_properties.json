@@ -1,0 +1,29 @@
+{
+    "configurations": [
+        {
+            "browse": {
+                "databaseFilename": "",
+                "limitSymbolsToIncludedHeaders": true
+            },
+            "includePath": [
+                "/home/okasha000/catkin_ws/devel/include",
+                "/home/okasha000/ardrone_simulator/devel/include",
+                "/opt/ros/kinetic/include",
+                "/home/okasha000/catkin_ws/src/gradsim/include",
+                "/home/okasha000/catkin_ws/hector_localization/hector_pose_estimation/include",
+                "/home/okasha000/catkin_ws/hector_localization/hector_pose_estimation_core/include",
+                "/home/okasha000/catkin_ws/src/modelbot/include",
+                "/home/okasha000/catkin_ws/src/rosserial/rosserial_server/include",
+                "/home/okasha000/catkin_ws/src/rosserial/rosserial_test/include",
+                "/home/okasha000/catkin_ws/src/turtle_project/include",
+                "/usr/include"
+            ],
+            "name": "Linux",
+            "intelliSenseMode": "gcc-x64",
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c11",
+            "cppStandard": "c++17"
+        }
+    ],
+    "version": 4
+}
