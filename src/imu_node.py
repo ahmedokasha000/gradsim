@@ -32,9 +32,11 @@ class ImuToROS():
         imu_data = Imu()
         
         acc,ang_v,eular=imu_read
-        eular[0] *= (np.pi)/180.
-        eular[1] *= (np.pi)/180.
-        eular[2] *= (np.pi)/180.
+        print(eular)
+        eular[0] =eular[0]*((np.pi)/180.0)
+        eular[1] = eular[1]*((np.pi)/180.0)
+        eular[2] = eular[2]*((np.pi)/180.0)
+        
         imu_data.linear_acceleration.x=acc[0]*9.8
         imu_data.linear_acceleration.y=acc[1]*9.8
         imu_data.linear_acceleration.z=acc[2]*9.8

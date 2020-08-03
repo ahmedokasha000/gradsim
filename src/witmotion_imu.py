@@ -38,6 +38,10 @@ class IMUDriver ():
             self.eular_angles[0] = temparr[0] / 32768.0 * 180.0#(m.pi)
             self.eular_angles[1] = temparr[1] / 32768.0 * 180.0#(m.pi)
             self.eular_angles[2] = temparr[2] / 32768.0 * 180.0#(m.pi)
+            #self.eular_angles[0] = self.eular_angles[0] if (self.eular_angles[0] > 0) else ((180.0-np.abs(self.eular_angles[0]))+180.0)
+            #self.eular_angles[1] =self.eular_angles[1] if (self.eular_angles[1]>0) else ((180.0-np.abs(self.eular_angles[1]))+180.0)
+            #self.eular_angles[2] =self.eular_angles[2] if (self.eular_angles[2]>0) else ((180.0-np.abs(self.eular_angles[2]))+180.0)
+            #print("raw =%0.2f"%self.eular_angles[0]," Theta = %0.2f"%self.eular_angles[1]," yaw = %0.2f"%self.eular_angles[2])
             self.temerature  = temparr[3] / 340.0 + 36.25
 
     def decode_format(self,data):

@@ -3,5 +3,6 @@
         "/home/okasha000/catkin_ws/devel/lib/python2.7/dist-packages",
         "/home/okasha000/ardrone_simulator/devel/lib/python2.7/dist-packages",
         "/opt/ros/kinetic/lib/python2.7/dist-packages"
-    ]
+    ],
+    "ros.distro": "melodic"
 }
