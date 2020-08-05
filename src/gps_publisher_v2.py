@@ -5,14 +5,26 @@ import serial
 import rospy
 from sensor_msgs.msg import NavSatFix
 
-uart = serial.Serial(
-    port="/dev/ttyUSB0",
-    baudrate=9600,
-    bytesize=serial.EIGHTBITS,
-    parity=serial.PARITY_NONE,
-    stopbits=serial.STOPBITS_ONE,
-    timeout=10,
-)
+
+ports= ["/dev/ttyUSB"+str(i) for i in range(5)]
+
+for port in ports:
+    try:
+        uart = serial.Serial(
+            port=port,
+            baudrate=9600,
+            bytesize=serial.EIGHTBITS,
+            parity=serial.PARITY_NONE,
+            stopbits=serial.STOPBITS_ONE,
+            timeout=10,
+        )
+        if (uart.isOpen()):
+            print("port %s is open"%port)
+            break
+    except:
+        print("port %s isn't found"%port)
+    
+
 
 rospy.init_node('gps_node')
 pub = rospy.Publisher('/gps_data',NavSatFix , queue_size =1)

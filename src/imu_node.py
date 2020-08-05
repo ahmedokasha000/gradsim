@@ -12,14 +12,25 @@ from geometry_msgs.msg import Quaternion
 
 
 
+ports= ["/dev/rfcomm"+str(i) for i in range(10)]
+ports.extend(["/dev/ttyTHS1","/dev/ttyTHS2"])
+for port in ports:
+    try:
+        serial_port = serial.Serial(
+            port=port,
+            baudrate=115200,
+            bytesize=serial.EIGHTBITS,
+            parity=serial.PARITY_NONE,
+            stopbits=serial.STOPBITS_ONE,
+        )
+        if (serial_port.isOpen()):
+            print("port %s is open"%port)
+            break
+    except:
+        print("port %s isn't found"%port)
+    
 
-serial_port = serial.Serial(
-    port="/dev/rfcomm1",
-    baudrate=115200,
-    bytesize=serial.EIGHTBITS,
-    parity=serial.PARITY_NONE,
-    stopbits=serial.STOPBITS_ONE,
-)
+
 
 time.sleep(1)
 class ImuToROS():
@@ -63,7 +74,7 @@ if __name__ == '__main__':
     bumpPub = rospy.Publisher('/bump_detection_imu', String, queue_size=1)
     imu_ros=ImuToROS()
     imu1=im.IMUDriver()
-    rate = rospy.Rate(2000)
+    rate = rospy.Rate(500)
     #####################   Accident Detection Initialization   #####################  
     OUTPUT_RATE = 100
     Bump_ob = BumpDetection(OUTPUT_RATE,log_data=False)
@@ -93,10 +104,13 @@ if __name__ == '__main__':
                 bumpPub.publish("0")
             #print(result)
             del buffer[:]
+            rate.sleep()
        
 
     rate.sleep()
   except rospy.ROSInterruptException:
+    print("imu port closing...")
+    serial_port.close()
     pass
 
 

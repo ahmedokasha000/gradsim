@@ -1,4 +1,5 @@
 <launch>
     <node pkg="gradsim" type="imu_node.py" name="imu_node"/>
-    <node pkg="gradsim" type="gps_publisher_v2.py" name="gps_node"/>
+    <node pkg="gradsim" type="gps_publisher_v3.py" name="gps_node"/>
+
 </launch>

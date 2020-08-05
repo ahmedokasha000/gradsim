@@ -4,10 +4,5 @@
 		<rosparam command="load" file="$(find gradsim)/config/navsat_transform_node_parm.yaml" />	
 		<remap from="gps/fix" to="/gps_data" />	 	
  		<remap from="imu/data" to="/imu_data"/> 
-		
-	
-
 	</node>	
-
-
 </launch>
