@@ -9,13 +9,15 @@ import cv2
 import tensorflow.contrib.tensorrt as trt
 import tensorflow as tf
 import numpy as np
+import os 
 
 
 # In[2]:
+current_dir=os.getcwd().split('/')
+pb_fname="/home/"+current_dir[2]+"/catkin_ws/src/gradsim/src/bump_detect_Camera/ssd_inception_v2_coco_trt.pb"
 
-
-Model = 'DL_Models/MobNv1_Grayscale/trtOptimized/'
-pb_fname = Model + 'ssd_inception_v2_coco_trt.pb'
+# Model = 'DL_Models/MobNv1_Grayscale/trtOptimized/'
+# pb_fname = Model + 'ssd_inception_v2_coco_trt.pb'
 
 
 # In[4]:
@@ -41,7 +43,7 @@ tf_input.shape.as_list()
 # In[7]:
 
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture("/home/grad20/Desktop/VID_20200807_190001.mp4")
 width, height, fps = 2560, 720, 25   #cap.get(cv2.CAP_PROP_FRAME_WIDTH)   # float
 cap.set(cv2.CAP_PROP_FRAME_WIDTH, width)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
