@@ -9,6 +9,8 @@
   <!--Bump detection with Camera & DL module -->
   <!--Database pipeline-->
   <node pkg="gradsim" type="bump_database_pipeline.py" name="bump_database_pipeline" />
+  <!-- Bump Notfication-->
+  <node pkg="gradsim" type="calculate_dist.py" name="bump_notfication" />
 
  
 
