@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 import numpy as np
-from bump_detection import BumpDetection
-import witmotion_imu as im
+import witmotion_imu_driver as im
 import serial
 import time
 import rospy
 from std_msgs.msg import String
 from sensor_msgs.msg import Imu
+from sensor_msgs.msg import Image
+import ros_numpy as r_np
 from tf.transformations import quaternion_from_euler
 from geometry_msgs.msg import Quaternion
 
@@ -43,7 +44,7 @@ class ImuToROS():
         imu_data = Imu()
         
         acc,ang_v,eular=imu_read
-        print(eular)
+        #print(eular)
         eular[0] =eular[0]*((np.pi)/180.0)
         eular[1] = eular[1]*((np.pi)/180.0)
         eular[2] = eular[2]*((np.pi)/180.0)
@@ -71,16 +72,13 @@ class ImuToROS():
 if __name__ == '__main__':
   try:
     rospy.init_node('imu_interface', anonymous=True)
-    bumpPub = rospy.Publisher('/bump_detection_imu', String, queue_size=1)
+    bufferPub = rospy.Publisher('/imu_buffer', Image, queue_size=1)
     imu_ros=ImuToROS()
     imu1=im.IMUDriver()
-    rate = rospy.Rate(500)
+    rate = rospy.Rate(3000)
     #####################   Accident Detection Initialization   #####################  
-    OUTPUT_RATE = 100
-    Bump_ob = BumpDetection(OUTPUT_RATE,log_data=False)
-    Bump_ob.DIFF_THRESHOLD = 1.0  # set the acceleration change threshold (3g set as default)
-    Bump_ob.STD_THRESHOLD = 0.6  # set the standard deviation threshold
-    BUFFER_SIZE= 50 # should contain 0.5s measurements, 50 measurements in case of 100Hz output rate
+
+    BUFFER_SIZE= 500 # should contain 0.5s measurements, 50 measurements in case of 100Hz output rate
     ####################################################################################
     last_seq = 0
     buffer=[]
@@ -91,23 +89,16 @@ if __name__ == '__main__':
         if imu1.frame_seq > last_seq:
             row=(imu1.acceleration,imu1.angular_velocity,imu1.eular_angles)
             imu_ros.imu_to_topic(row)
-            buffer.append([imu1.acceleration[0],imu1.acceleration[1],imu1.acceleration[2]])
+            buffer.append([imu1.acceleration[0],imu1.acceleration[1],imu1.acceleration[2],imu1.angular_velocity[1],imu1.eular_angles[1],imu1.eular_angles[2]])
             #csv_writer.writerow(info)
             last_seq += 1
         if len(buffer) >= BUFFER_SIZE:
             arr = np.array(buffer)
-            #####################   Feed Algorithm with the new buffer array ############
-            result = Bump_ob.process_buffer(arr)  
-            if result["bool"]:
-                bumpPub.publish("1")
-            else:
-                bumpPub.publish("0")
-            #print(result)
-            del buffer[:]
-            rate.sleep()
-       
+            msg = r_np.msgify(Image, arr,encoding='64FC1')
+            bufferPub.publish(msg)
+            del buffer[:300]
 
-    rate.sleep()
+        rate.sleep()
   except rospy.ROSInterruptException:
     print("imu port closing...")
     serial_port.close()

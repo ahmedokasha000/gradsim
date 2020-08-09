@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<launch>
+
+  <include file="$(find gradsim)/launch/localization_pipeline_no_sim.launch"/>
+  <!--Bump detection with IMU & ML module -->
+  
+  <node pkg="gradsim" type="bump_detection_ml_imu_ros.py" name="bump_detect_imu_ml"/>
+  <!--Bump detection with Camera & DL module -->
+  <!--Database pipeline-->
+  <node pkg="gradsim" type="bump_database_pipeline.py" name="bump_database_pipeline" />
+
+ 
+
+
+
+</launch>

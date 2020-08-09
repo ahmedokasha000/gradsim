@@ -24,7 +24,7 @@ import rospy
 from std_msgs.msg import String
 
 rospy.init_node('deep_learning', anonymous=True)
-resultPub = rospy.Publisher('/bump_detect', String, queue_size=1)
+resultPub = rospy.Publisher('/bump_detected_DL', String, queue_size=1)
 detection_result=String()
 print('Done importing')
 #######################

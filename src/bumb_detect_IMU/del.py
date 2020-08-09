@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 import numpy as np
 import pandas as pd
 import scipy.signal as sg
@@ -226,7 +225,7 @@ def model_train(estimators=650, depth=14, file_path="model_1"):
     """
     # Reading ref and sensors data, create timestamp for both
     fs_imu=100
-    dir1="~/catkin_ws/src/gradsim/src/bumb_detect_IMU/dataset/dataset_20_08_06.csv"
+    dir1="./dataset/dataset_20_08_06.csv"
     data_x,data_y=load_all_dataset(dir1, fs_imu, window_size=5, window_overlab=2)
     clean_x,clean_y=clean_datset(data_x, data_y, fs_imu)
     dataset_feats=featurize_samples(clean_x, fs_imu)
@@ -300,7 +299,6 @@ def inference(imu_data, model_path="model_1"):
     clean_y = np.ravel(clean_y)
     reg_model = load_model(model_path)
     samples_pred = reg_model.predict(dataset_feats)
-    return (samples_pred>0.4116).astype(int)
 
 def inference_2(imu_data, model):
     """
@@ -321,3 +319,7 @@ def inference_2(imu_data, model):
     samples_pred = reg_model.predict(dataset_feats)
     
     return (samples_pred>0.4116).astype(int)
+model= load_model("model_1")
+input_d=[np.random.randn(500) for i in range(6)]
+result=inference_2(input_d,model)
+print(result)

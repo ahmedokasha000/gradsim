@@ -5,5 +5,5 @@
         "/opt/ros/kinetic/lib/python2.7/dist-packages"
     ],
     "ros.distro": "melodic",
-    "python.pythonPath": "/home/ahmed000/miniconda3/envs/AI_HC/bin/python"
+    "python.pythonPath": "/usr/bin/python3"
 }
