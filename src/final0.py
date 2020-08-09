@@ -22,6 +22,8 @@ from tf_trt_models.detection import download_detection_model, build_detection_gr
 from IPython.display import Image as DisplayImage
 import rospy
 from std_msgs.msg import String
+    # current_dir=os.getcwd().split('/')
+    # model_dir="/home/"+current_dir[2]+"/catkin_ws/src/gradsim/src/model_1"
 
 rospy.init_node('deep_learning', anonymous=True)
 resultPub = rospy.Publisher('/bump_detected_DL', String, queue_size=1)

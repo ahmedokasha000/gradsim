@@ -226,7 +226,8 @@ def model_train(estimators=650, depth=14, file_path="model_1"):
     """
     # Reading ref and sensors data, create timestamp for both
     fs_imu=100
-    dir1="~/catkin_ws/src/gradsim/src/bumb_detect_IMU/dataset/dataset_20_08_06.csv"
+    current_dir=os.getcwd().split('/')
+    dir1="/home/"+current_dir[2]+"/catkin_ws/src/gradsim/src/bumb_detect_IMU/dataset/dataset_20_08_06.csv"
     data_x,data_y=load_all_dataset(dir1, fs_imu, window_size=5, window_overlab=2)
     clean_x,clean_y=clean_datset(data_x, data_y, fs_imu)
     dataset_feats=featurize_samples(clean_x, fs_imu)

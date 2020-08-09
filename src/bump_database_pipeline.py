@@ -26,7 +26,9 @@ def get_ML_results(msg):
     latest_ML_result=msg.data
 
 def save_coord_to_database(gps_coordinates):
-    with open('/home/ahmed000/catkin_ws/src/gradsim/src/detected_bumps_coordinates.csv', 'a') as f1:
+    current_dir=os.getcwd().split('/')
+    database_dir="/home/"+current_dir[2]+"/catkin_ws/src/gradsim/src/detected_bumps_coordinates.csv"
+    with open(database_dir, 'a') as f1:
         writer = csv.writer(f1)
         writer.writerow(gps_coordinates)
         pass
