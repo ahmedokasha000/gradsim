@@ -28,9 +28,9 @@ get_ipython().run_line_magic('matplotlib', 'inline')
 # In[11]:
 
 
-MODEL = 'MobNv1_Grayscale/'
+MODEL = 'MobNv2-FT3-Frozen/'
 CONFIG_FILE = MODEL + 'Frozen/pipeline.config'
-CHECKPOINT_FILE = MODEL + 'Frozen/model.ckpt'    
+CHECKPOINT_FILE = MODEL + 'Frozen/model.ckpt' 
 
 
 # In[12]:
@@ -39,7 +39,7 @@ CHECKPOINT_FILE = MODEL + 'Frozen/model.ckpt'
 # Generating The Frozen_Inference_Graph from the trained model (checkpoints)
 
 frozen_graph, input_names, output_names = build_detection_graph(
-    config = '/home/mohamed/Dev/Gradp/DL_Models/MobNv1_Grayscale/Frozen/pipeline.config',
+    config = CONFIG_FILE,
     checkpoint = CHECKPOINT_FILE,
     score_threshold = 0.3,
     batch_size = 1
@@ -68,6 +68,14 @@ trt_graph = trt.create_inference_graph(
 
 with open( MODEL + '/ssd_inception_v2_coco_trt.pb', 'wb') as f:
     f.write(trt_graph.SerializeToString())
+
+
+# In[ ]:
+
+
+# Stop here.....................
+
+assert False
 
 
 # In[16]:
