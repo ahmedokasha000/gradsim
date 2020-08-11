@@ -45,7 +45,7 @@ def check_near_bumps(current_coor, database_data):
         meter = (int)(distance * 1000.0)
         i = i + 1
         print('distance' + str(i) + ' = ' + str(meter))
-        if(meter <= 50):
+        if(meter <= 100):
             near_bumps_distance.append(meter)
     if near_bumps_distance:
         nearest_bump=np.min(near_bumps_distance)

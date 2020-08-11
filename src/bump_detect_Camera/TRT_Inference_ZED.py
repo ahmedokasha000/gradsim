@@ -43,17 +43,18 @@ tf_input.shape.as_list()
 # In[7]:
 
 
-cap = cv2.VideoCapture("/home/grad20/Desktop/VID_20200807_190001.mp4")
-width, height, fps = 2560, 720, 25   #cap.get(cv2.CAP_PROP_FRAME_WIDTH)   # float
-cap.set(cv2.CAP_PROP_FRAME_WIDTH, width)
-cap.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
+cap = cv2.VideoCapture("/home/grad20/.virtualenvs/dg1.15/a_detectionTensorRT/_Videos/Agamy_Videos_007.mp4")
+#width, height, fps = 2560, 720, 25   #cap.get(cv2.CAP_PROP_FRAME_WIDTH)   # float
+#cap.set(cv2.CAP_PROP_FRAME_WIDTH, width)
+#cap.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
 
 while True :
 
     retval, image = cap.read()
-    left_right_image = np.split(image, 2, axis=1)
-    image = left_right_image[1]
-    
+    #left_right_image = np.split(image, 2, axis=1)
+    #image = left_right_image[1]
+    if retval == False:
+        break
     # Detect Here...
     scores, boxes, classes, num_detections = tf_sess.run([tf_scores, tf_boxes, tf_classes, tf_num_detections],
                                                          feed_dict={tf_input: image[None, ...]})
@@ -65,7 +66,7 @@ while True :
     # GPIO Signal........................
     if scores[0] > 0.3:
         print('Bump :(')
-#         hf.visualize_detection(image, num_detections, classes, boxes, scores)
+        hf.visualize_detection(image, num_detections, classes, boxes, scores)
     else:
         print('No Bump :)')
     #....................................
