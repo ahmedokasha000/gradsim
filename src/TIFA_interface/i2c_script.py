@@ -10,7 +10,7 @@ def writeNumber(value):
     bus.write_byte(address, value)
     # bus.write_byte_data(address, 0, value)
     return -1
-
+ 
 def readNumber(i):
     m = 0
     while m<i:
