@@ -8,14 +8,14 @@ import csv
 import os
 import math
 
-GPS_coord = [30.668732666666664,30.066891833333337]
-
+GPS_coord = [30.6634355,30.073243333333334]
+latest_nearest_bump=100
 def read_database(file_dir):
     database_data = []
     with open(file_dir, 'r') as db:
         csv_reader = csv.reader(db, delimiter=',')
         for row in csv_reader:
-            print(row)
+            #print(row)
             row[0] = float(row[0])
             row[1] = float(row[1])
             database_data.append(row)
@@ -29,6 +29,7 @@ def check_near_bumps(current_coor, database_data):
     # 1 -> longitude
     R = 6373.0
     i = 0
+    global latest_nearest_bump
     current_coor = {'lon': math.radians(current_coor[1]),
                     'lat': math.radians(current_coor[0])}
     near_bumps_distance = []
@@ -44,15 +45,18 @@ def check_near_bumps(current_coor, database_data):
         distance = R * c
         meter = (int)(distance * 1000.0)
         i = i + 1
-        print('distance' + str(i) + ' = ' + str(meter))
+        #print('distance' + str(i) + ' = ' + str(meter))
         if(meter <= 100):
             near_bumps_distance.append(meter)
     if near_bumps_distance:
         nearest_bump=np.min(near_bumps_distance)
+        if(nearest_bump-latest_nearest_bump)<0:
+            message="Bump within "+str(nearest_bump)+"m distance"
+            bumpNotficationPub.publish(message)
+            print('Send Notification')
+        #bumpNotficationPub.publish("hey")
+        latest_nearest_bump=nearest_bump
 
-        message="Bump within "+str(nearest_bump)+"m distance"
-        bumpNotficationPub.publish(message)
-        print('Send Notification')
 
 def get_gps_coordinates(msg):
     print("gps received")
@@ -67,6 +71,7 @@ if __name__ == '__main__':
         rate = rospy.Rate(3)
         GPS_filteredSub = rospy.Subscriber("/gps/filtered", NavSatFix, get_gps_coordinates)
         bumpNotficationPub = rospy.Publisher("/driver_notification", String, queue_size=2)
+        
         while not rospy.is_shutdown():
             database_d = read_database(database_dir)
             check_near_bumps(GPS_coord, database_d)

@@ -11,6 +11,8 @@
   <node pkg="gradsim" type="bump_database_pipeline.py" name="bump_database_pipeline" />
   <!-- Bump Notfication-->
   <node pkg="gradsim" type="calculate_dist.py" name="bump_notfication" />
+    <!-- Driver TIFA Notfication-->
+  <node pkg="gradsim" type="tifa_notifaction_ros.py" name="driver_notfication" />
 
  
 
