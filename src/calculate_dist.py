@@ -9,7 +9,7 @@ import os
 import math
 
 GPS_coord = [None,None]
-latest_nearest_bump=100
+latest_nearest_bump=50
 def read_database(file_dir):
     database_data = []
     with open(file_dir, 'r') as db:
@@ -46,7 +46,7 @@ def check_near_bumps(current_coor, database_data):
         meter = (int)(distance * 1000.0)
         i = i + 1
         #print('distance' + str(i) + ' = ' + str(meter))
-        if(meter <= 100):
+        if(meter <= 50):
             near_bumps_distance.append(meter)
     if near_bumps_distance:
         nearest_bump=np.min(near_bumps_distance)
@@ -59,10 +59,11 @@ def check_near_bumps(current_coor, database_data):
             print('Send Notification')
         #bumpNotficationPub.publish("hey")
         latest_nearest_bump=nearest_bump
+    else:
+        latest_nearest_bump=50
 
 
 def get_gps_coordinates(msg):
-    print("gps received")
     GPS_coord[0] = msg.latitude
     GPS_coord[1] = msg.longitude
 
@@ -71,7 +72,7 @@ if __name__ == '__main__':
         current_dir = os.getcwd().split('/')
         database_dir = "/home/" + current_dir[2] + "/catkin_ws/src/gradsim/src/detected_bumps_coordinates.csv"
         rospy.init_node('bump_notfications', anonymous=True)
-        rate = rospy.Rate(3)
+        rate = rospy.Rate(5)
         GPS_filteredSub = rospy.Subscriber("/gps/filtered", NavSatFix, get_gps_coordinates)
         bumpNotficationPub = rospy.Publisher("/driver_notification", String, queue_size=2)
         

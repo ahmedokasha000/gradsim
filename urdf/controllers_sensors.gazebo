@@ -2,7 +2,7 @@
 
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <gazebo>
+  <!-- <gazebo>
     <plugin name="skid_steer_drive_controller" filename="libgazebo_ros_skid_steer_drive.so">
       <updateRate>30.0</updateRate>
       <robotNamespace>/</robotNamespace>
@@ -19,7 +19,7 @@
       <odometryTopic>/odom_encoder </odometryTopic>
       <odometryFrame>odom </odometryFrame>
     </plugin>
-  </gazebo>
+  </gazebo> -->
 
 
 
