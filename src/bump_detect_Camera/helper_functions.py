@@ -1,10 +1,10 @@
 import numpy as np
 import cv2
-import tensorflow as tf
-
+#import tensorflow as tf
+from tensorflow import gfile,GraphDef
 def get_frozen_graph(graph_file):
-    with tf.gfile.FastGFile(graph_file, "rb") as f:
-        graph_def = tf.GraphDef()
+    with gfile.FastGFile(graph_file, "rb") as f:
+        graph_def = GraphDef()
         graph_def.ParseFromString(f.read())
     return graph_def
 
