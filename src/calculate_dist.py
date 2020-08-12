@@ -51,7 +51,7 @@ def check_near_bumps(current_coor, database_data):
     if near_bumps_distance:
         nearest_bump=np.min(near_bumps_distance)
         if(nearest_bump-latest_nearest_bump)<0:
-            duration = 0.3  # seconds
+            duration = 0.2  # seconds
             freq = 4500  # Hz
             os.system('play -nq -t alsa synth {} sine {}'.format(duration, freq))
             message="Bump within "+str(nearest_bump)+"m distance"
