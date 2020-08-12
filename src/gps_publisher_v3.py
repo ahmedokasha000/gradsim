@@ -28,8 +28,8 @@ for port in ports:
 if __name__ == '__main__':
   try:
     rospy.init_node('gps_node')
-    pub = rospy.Publisher('/gps/filtered',NavSatFix , queue_size =1)
-    rate =rospy.Rate(4)
+    pub = rospy.Publisher('/gps_data',NavSatFix , queue_size =1)
+    rate =rospy.Rate(8)
     # GPS initialization
     gps_data = NavSatFix()
     cv = [0.]*9

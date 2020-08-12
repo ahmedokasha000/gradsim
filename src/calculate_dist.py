@@ -8,7 +8,7 @@ import csv
 import os
 import math
 
-GPS_coord = [30.6634355,30.073243333333334]
+GPS_coord = [None,None]
 latest_nearest_bump=100
 def read_database(file_dir):
     database_data = []
@@ -51,6 +51,9 @@ def check_near_bumps(current_coor, database_data):
     if near_bumps_distance:
         nearest_bump=np.min(near_bumps_distance)
         if(nearest_bump-latest_nearest_bump)<0:
+            duration = 0.3  # seconds
+            freq = 4500  # Hz
+            os.system('play -nq -t alsa synth {} sine {}'.format(duration, freq))
             message="Bump within "+str(nearest_bump)+"m distance"
             bumpNotficationPub.publish(message)
             print('Send Notification')
@@ -74,7 +77,8 @@ if __name__ == '__main__':
         
         while not rospy.is_shutdown():
             database_d = read_database(database_dir)
-            check_near_bumps(GPS_coord, database_d)
+            if GPS_coord[0]:
+                check_near_bumps(GPS_coord, database_d)
             rate.sleep()
     except rospy.ROSInterruptException:
         pass
