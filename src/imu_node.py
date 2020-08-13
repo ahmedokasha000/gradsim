@@ -75,7 +75,7 @@ if __name__ == '__main__':
     bufferPub = rospy.Publisher('/imu_buffer', Image, queue_size=1)
     imu_ros=ImuToROS()
     imu1=im.IMUDriver()
-    rate = rospy.Rate(5000)
+    rate = rospy.Rate(2000)
     #####################   Accident Detection Initialization   #####################  
 
     BUFFER_SIZE= 500 # should contain 0.5s measurements, 50 measurements in case of 100Hz output rate

@@ -134,7 +134,7 @@ if __name__ == '__main__':
 
     while not rospy.is_shutdown():
         # for ML test only
-        if ((latest_ML_result=="Bump Detected") and (latest_DL_result>0)) :
+        if ((latest_ML_result=="Bump Detected") or (latest_DL_result>0)) :
         # for ML & DL test
         #if ((latest_ML_result=="Bump Detected") or (latest_DL_result>0)) :
 
