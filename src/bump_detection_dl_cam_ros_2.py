@@ -73,18 +73,17 @@ if __name__ == '__main__':
             if scores[0] > score_threshold:
                 count += 1
                 hf.visualize_detection(image, num_detections, classes, boxes, scores)
+                bumpNotficationPub.publish("Bump Detected")
                 print('Probably a Bump')
-                
+            else:
+                bumpNotficationPub.publish("No Bump")    
             if count > 4:
                 count = 0
                 print('Definetly a Bump')
-                bumpNotficationPub.publish("Bump Detected")
-                
                 """ Produce Sound Here
                 os.system('play -nq -t alsa synth {} sine {}'.format(0.1, 440))
                 """
-            else:
-                bumpNotficationPub.publish("No Bump")    
+
             if time()-start > 1:
                 count = 0
                 start = time()  
