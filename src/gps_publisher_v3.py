@@ -29,7 +29,7 @@ if __name__ == '__main__':
   try:
     rospy.init_node('gps_node')
     pub = rospy.Publisher('/gps_data',NavSatFix , queue_size =1)
-    rate =rospy.Rate(3)
+    rate =rospy.Rate(10)
     # GPS initialization
     gps_data = NavSatFix()
     cv = [0.]*9

@@ -7,6 +7,7 @@
   
   <node pkg="gradsim" type="bump_detection_ml_imu_ros.py" name="bump_detect_imu_ml"/>
   <!--Bump detection with Camera & DL module -->
+  <node pkg="gradsim" type="bump_detection_dl_cam_ros_2.py" name="bump_detect_cam_dl"/>
   <!--Database pipeline-->
   <node pkg="gradsim" type="bump_database_pipeline.py" name="bump_database_pipeline" />
   <!-- Bump Notfication-->

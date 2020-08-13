@@ -55,6 +55,7 @@ if __name__ == '__main__':
         count = 0
         score_threshold = 0.5
         start = time()
+        out = cv2.VideoWriter("/home/grad20/Desktop/grad_project"+str(start)+".avi",cv2.VideoWriter_fourcc(*'MJPG'),30,(640,480))
         while not rospy.is_shutdown():
             img_response =requests.get(url)
             img_arr=np.array(bytearray(img_response.content))
@@ -71,7 +72,7 @@ if __name__ == '__main__':
             print('Processing...')
             if scores[0] > score_threshold:
                 count += 1
-                #hf.visualize_detection(image, num_detections, classes, boxes, scores)
+                hf.visualize_detection(image, num_detections, classes, boxes, scores)
                 print('Probably a Bump')
                 
             if count > 4:
@@ -86,7 +87,8 @@ if __name__ == '__main__':
                 bumpNotficationPub.publish("No Bump")    
             if time()-start > 1:
                 count = 0
-                start = time()    
+                start = time()  
+            out.write(image)  
             #....................................
             #cv2.imshow("Detection", image)
             if cv2.waitKey(25) & 0xFF == ord('q'):

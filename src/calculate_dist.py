@@ -9,7 +9,9 @@ import os
 import math
 
 GPS_coord = [None,None]
-latest_nearest_bump=50
+MAX_DIST_NOTIFY=50
+latest_nearest_bump=MAX_DIST_NOTIFY
+
 def read_database(file_dir):
     database_data = []
     with open(file_dir, 'r') as db:
@@ -19,11 +21,12 @@ def read_database(file_dir):
             row[0] = float(row[0])
             row[1] = float(row[1])
             database_data.append(row)
+    db.close()
     return database_data
 
 def send_notfication():
     pass
-def check_near_bumps(current_coor, database_data):
+def check_near_bumps(current_coor, database_data,max_notify=50):
 
     # 0 -> latitude
     # 1 -> longitude
@@ -46,7 +49,7 @@ def check_near_bumps(current_coor, database_data):
         meter = (int)(distance * 1000.0)
         i = i + 1
         #print('distance' + str(i) + ' = ' + str(meter))
-        if(meter <= 50):
+        if(meter <= max_notify):
             near_bumps_distance.append(meter)
     if near_bumps_distance:
         nearest_bump=np.min(near_bumps_distance)
@@ -60,7 +63,7 @@ def check_near_bumps(current_coor, database_data):
         #bumpNotficationPub.publish("hey")
         latest_nearest_bump=nearest_bump
     else:
-        latest_nearest_bump=50
+        latest_nearest_bump=max_notify
 
 
 def get_gps_coordinates(msg):
@@ -72,14 +75,19 @@ if __name__ == '__main__':
         current_dir = os.getcwd().split('/')
         database_dir = "/home/" + current_dir[2] + "/catkin_ws/src/gradsim/src/detected_bumps_coordinates.csv"
         rospy.init_node('bump_notfications', anonymous=True)
-        rate = rospy.Rate(5)
-        GPS_filteredSub = rospy.Subscriber("/gps/filtered", NavSatFix, get_gps_coordinates)
+        rate = rospy.Rate(3)
+        GPS_filteredSub = rospy.Subscriber("/gps_data", NavSatFix, get_gps_coordinates)
         bumpNotficationPub = rospy.Publisher("/driver_notification", String, queue_size=2)
         
         while not rospy.is_shutdown():
-            database_d = read_database(database_dir)
+            try:
+                database_d = read_database(database_dir)
+            except IOError:
+                print("waiting for database to be created")
+                database_d=[]
+            
             if GPS_coord[0]:
-                check_near_bumps(GPS_coord, database_d)
+                check_near_bumps(GPS_coord, database_d,MAX_DIST_NOTIFY)
             rate.sleep()
     except rospy.ROSInterruptException:
         pass
