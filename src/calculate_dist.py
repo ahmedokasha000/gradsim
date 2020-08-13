@@ -9,7 +9,7 @@ import os
 import math
 
 GPS_coord = [None,None]
-MAX_DIST_NOTIFY=50
+MAX_DIST_NOTIFY=70
 latest_nearest_bump=MAX_DIST_NOTIFY
 
 def read_database(file_dir):
@@ -64,6 +64,7 @@ def check_near_bumps(current_coor, database_data,max_notify=50):
         latest_nearest_bump=nearest_bump
     else:
         latest_nearest_bump=max_notify
+    print (latest_nearest_bump)
 
 
 def get_gps_coordinates(msg):

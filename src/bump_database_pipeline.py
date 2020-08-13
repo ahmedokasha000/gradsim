@@ -11,7 +11,7 @@ import math
 latest_ML_result=None
 latest_DL_result=0
 GPS_coord=[None,None]
-
+MIN_DIST_SAME_BUMP=20
 def calc_dist_two_coor(current_coor,location):
     # 0 -> latitude
     # 1 -> longitude
@@ -79,8 +79,8 @@ def check_bump_exist(database_l,current_coor,min_dist=6):
         dist=calc_dist_two_coor(location,current_coor)
         #print("distance equal %0.2f"%dist)
         if (dist<min_dist):
-            location[0]=(location[0]+current_coor[0])/2.
-            location[1]=(location[1]+current_coor[1])/2.
+            location[0]=0.9*location[0]+current_coor[0]*0.1
+            location[1]=0.9*location[1]+current_coor[1]*0.1
             database_l[ind]=location
             print("bump already exist, average is taken")
             
@@ -94,8 +94,8 @@ def clean_db(database_l,min_dist=6):
             second_loc=database_l[second_loc_ind]
             dist=calc_dist_two_coor(second_loc,first_loc)
             if (dist<min_dist):
-                first_loc[0]=(first_loc[0]+second_loc[0])/2.
-                first_loc[1]=(first_loc[1]+second_loc[1])/2.
+                first_loc[0]=0.9*first_loc[0]+second_loc[0]*0.1
+                first_loc[1]=0.9*first_loc[1]+second_loc[1]*0.1
                 database_l[first_loc_ind]=first_loc
                 ind_to_del.append(second_loc_ind)
                 print("bump already exist index %d, average is taken"%second_loc_ind)
@@ -122,7 +122,7 @@ if __name__ == '__main__':
     database_dir="/home/"+current_dir[2]+"/catkin_ws/src/gradsim/src/detected_bumps_coordinates.csv"
     try:
         database_r=read_database(database_dir)
-        database=clean_db(database_r,min_dist=15)
+        database=clean_db(database_r,min_dist=MIN_DIST_SAME_BUMP)
         if len(database_r)>len(database):
             print ("repeated lines are detected")
             overwrite_db(database,database_dir)
@@ -134,7 +134,7 @@ if __name__ == '__main__':
 
     while not rospy.is_shutdown():
         # for ML test only
-        if ((latest_ML_result=="Bump Detected") or (latest_DL_result>0)) :
+        if (latest_ML_result=="Bump Detected")  :
         # for ML & DL test
         #if ((latest_ML_result=="Bump Detected") or (latest_DL_result>0)) :
 
@@ -144,7 +144,7 @@ if __name__ == '__main__':
             if (GPS_coord[0]!=None)  and (GPS_coord[0]!=None):
                 try:
                     database=read_database(database_dir)
-                    check_result,database_2=check_bump_exist(database,GPS_coord,min_dist=15)
+                    check_result,database_2=check_bump_exist(database,GPS_coord,min_dist=MIN_DIST_SAME_BUMP)
                 except IOError:
                     check_result=0
                 #check_result=0
