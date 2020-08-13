@@ -4,8 +4,8 @@
 
   <include file="$(find gradsim)/launch/model_gazebo.launch"/>
   <include file="$(find gradsim)/launch/hardware_sensors.launch"/>
-  <include file="$(find gradsim)/launch/ekf_localization_node.launch"/>
-  <include file="$(find gradsim)/launch/nav_sat_transform.launch"/>	
+  <!--include file="$(find gradsim)/launch/ekf_localization_node.launch"/-->
+  <!--include file="$(find gradsim)/launch/nav_sat_transform.launch"/-->	
  
 
 
