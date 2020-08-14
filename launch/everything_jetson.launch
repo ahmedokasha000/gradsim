@@ -13,7 +13,7 @@
   <!-- Bump Notfication-->
   <!--node pkg="gradsim" type="calculate_dist.py" name="bump_notfication" /-->
     <!-- Driver TIFA Notfication-->
-  <!--node pkg="gradsim" type="tifa_notifaction_ros.py" name="driver_notfication" /-->
+  <node pkg="gradsim" type="tifa_notifaction_ros.py" name="driver_notfication" />
 
  
 

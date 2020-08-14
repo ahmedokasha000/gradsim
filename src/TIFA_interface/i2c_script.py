@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 import smbus
 import time
 # Nvidia Jetson Nano i2c Bus 0
@@ -25,15 +25,15 @@ def readNumber(i,bus,address):
         m=m+1
     # number = bus.read_byte_data(address, 1)
     return number
-
+# bus,address=init_i2c()
 # while True:
-#     var = int(input(""))
-
+#     var = input("")
+    
 #     if not var:
 #         continue
-#     writeNumber(var)
+#     writeNumber(var,bus,address)
 #     if var ==0x50:
-#         number = readNumber(8)
+#         number = readNumber(8,bus,address)
 #     if var == 0x43:
-#         number = readNumber(1)
+#         number = readNumber(1,bus,address)
    

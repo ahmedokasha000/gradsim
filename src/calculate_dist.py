@@ -57,7 +57,7 @@ def check_near_bumps(current_coor, database_data,max_notify=50):
             duration = 0.2  # seconds
             freq = 4500  # Hz
             os.system('play -nq -t alsa synth {} sine {}'.format(duration, freq))
-            message="Bump within "+str(nearest_bump)+"m distance"
+            message="Bump within,"+str(nearest_bump)+",m distance"
             bumpNotficationPub.publish(message)
             print('Send Notification')
         #bumpNotficationPub.publish("hey")

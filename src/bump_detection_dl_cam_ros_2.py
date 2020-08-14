@@ -55,7 +55,7 @@ if __name__ == '__main__':
         count = 0
         score_threshold = 0.5
         start = time()
-        out = cv2.VideoWriter("/home/grad20/Desktop/grad_project"+str(start)+".avi",cv2.VideoWriter_fourcc(*'MJPG'),30,(640,480))
+        out = cv2.VideoWriter("/home/grad20/Desktop/grad_project"+str(start)+".avi",cv2.VideoWriter_fourcc(*'MJPG'),10,(640,480))
         while not rospy.is_shutdown():
             img_response =requests.get(url)
             img_arr=np.array(bytearray(img_response.content))
